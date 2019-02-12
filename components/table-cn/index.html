@@ -1893,7 +1893,22 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 <span class="token keyword">import</span> HTML5Backend <span class="token keyword">from</span> <span class="token string">'react-dnd-html5-backend'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> update <span class="token keyword">from</span> <span class="token string">'immutability-helper'</span><span class="token punctuation">;</span>
 
-<span class="token keyword">let</span> dragingIndex <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">dragDirection</span><span class="token punctuation">(</span>
+  dragIndex<span class="token punctuation">,</span>
+  hoverIndex<span class="token punctuation">,</span>
+  initialClientOffset<span class="token punctuation">,</span>
+  clientOffset<span class="token punctuation">,</span>
+  sourceClientOffset<span class="token punctuation">,</span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> hoverMiddleY <span class="token operator">=</span> <span class="token punctuation">(</span>initialClientOffset<span class="token punctuation">.</span>y <span class="token operator">-</span> sourceClientOffset<span class="token punctuation">.</span>y<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> hoverClientY <span class="token operator">=</span> clientOffset<span class="token punctuation">.</span>y <span class="token operator">-</span> sourceClientOffset<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>dragIndex <span class="token operator">&lt;</span> hoverIndex <span class="token operator">&amp;&amp;</span> hoverClientY <span class="token operator">></span> hoverMiddleY<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">'downward'</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>dragIndex <span class="token operator">></span> hoverIndex <span class="token operator">&amp;&amp;</span> hoverClientY <span class="token operator">&lt;</span> hoverMiddleY<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">'upward'</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
 <span class="token keyword">class</span> <span class="token class-name">BodyRow</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
   <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1902,16 +1917,27 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
       connectDragSource<span class="token punctuation">,</span>
       connectDropTarget<span class="token punctuation">,</span>
       moveRow<span class="token punctuation">,</span>
+      dragRow<span class="token punctuation">,</span>
+      clientOffset<span class="token punctuation">,</span>
+      sourceClientOffset<span class="token punctuation">,</span>
+      initialClientOffset<span class="token punctuation">,</span>
       <span class="token operator">...</span>restProps
     <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">;</span>
     <span class="token keyword">const</span> style <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>restProps<span class="token punctuation">.</span>style<span class="token punctuation">,</span> cursor<span class="token punctuation">:</span> <span class="token string">'move'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
     <span class="token keyword">let</span> className <span class="token operator">=</span> restProps<span class="token punctuation">.</span>className<span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>isOver<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>restProps<span class="token punctuation">.</span>index <span class="token operator">></span> dragingIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isOver <span class="token operator">&amp;&amp;</span> initialClientOffset<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> direction <span class="token operator">=</span> <span class="token function">dragDirection</span><span class="token punctuation">(</span>
+        dragRow<span class="token punctuation">.</span>index<span class="token punctuation">,</span>
+        restProps<span class="token punctuation">.</span>index<span class="token punctuation">,</span>
+        initialClientOffset<span class="token punctuation">,</span>
+        clientOffset<span class="token punctuation">,</span>
+        sourceClientOffset
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>direction <span class="token operator">===</span> <span class="token string">'downward'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         className <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">' drop-over-downward'</span><span class="token punctuation">;</span>
       <span class="token punctuation">}</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>restProps<span class="token punctuation">.</span>index <span class="token operator">&lt;</span> dragingIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>direction <span class="token operator">===</span> <span class="token string">'upward'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         className <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">' drop-over-upward'</span><span class="token punctuation">;</span>
       <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
@@ -1930,7 +1956,6 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
 
 <span class="token keyword">const</span> rowSource <span class="token operator">=</span> <span class="token punctuation">{</span>
   <span class="token function">beginDrag</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    dragingIndex <span class="token operator">=</span> props<span class="token punctuation">.</span>index<span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token punctuation">{</span>
       index<span class="token punctuation">:</span> props<span class="token punctuation">.</span>index<span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -1958,21 +1983,17 @@ ReactDOM<span class="token punctuation">.</span><span class="token function">ren
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<span class="token keyword">const</span> DragableBodyRow <span class="token operator">=</span> <span class="token function">DropTarget</span><span class="token punctuation">(</span>
-  <span class="token string">'row'</span><span class="token punctuation">,</span>
-  rowTarget<span class="token punctuation">,</span>
-  <span class="token punctuation">(</span>connect<span class="token punctuation">,</span> monitor<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-    connectDropTarget<span class="token punctuation">:</span> connect<span class="token punctuation">.</span><span class="token function">dropTarget</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    isOver<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">isOver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-<span class="token punctuation">)</span><span class="token punctuation">(</span>
-  <span class="token function">DragSource</span><span class="token punctuation">(</span>
-    <span class="token string">'row'</span><span class="token punctuation">,</span>
-    rowSource<span class="token punctuation">,</span>
-    <span class="token punctuation">(</span>connect<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
-      connectDragSource<span class="token punctuation">:</span> connect<span class="token punctuation">.</span><span class="token function">dragSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  <span class="token punctuation">)</span><span class="token punctuation">(</span>BodyRow<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token keyword">const</span> DragableBodyRow <span class="token operator">=</span> <span class="token function">DropTarget</span><span class="token punctuation">(</span><span class="token string">'row'</span><span class="token punctuation">,</span> rowTarget<span class="token punctuation">,</span> <span class="token punctuation">(</span>connect<span class="token punctuation">,</span> monitor<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  connectDropTarget<span class="token punctuation">:</span> connect<span class="token punctuation">.</span><span class="token function">dropTarget</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  isOver<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">isOver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  sourceClientOffset<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">getSourceClientOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">(</span>
+  <span class="token function">DragSource</span><span class="token punctuation">(</span><span class="token string">'row'</span><span class="token punctuation">,</span> rowSource<span class="token punctuation">,</span> <span class="token punctuation">(</span>connect<span class="token punctuation">,</span> monitor<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    connectDragSource<span class="token punctuation">:</span> connect<span class="token punctuation">.</span><span class="token function">dragSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    dragRow<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    clientOffset<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">getClientOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    initialClientOffset<span class="token punctuation">:</span> monitor<span class="token punctuation">.</span><span class="token function">getInitialClientOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">(</span>BodyRow<span class="token punctuation">)</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">const</span> columns <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
