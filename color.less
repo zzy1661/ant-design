@@ -1555,7 +1555,7 @@ this.tinycolor = tinycolor;
   'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 @code-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-@heading-color: fade(#000, 85%);
+@heading-color: fade(@black, 85%);
 @text-color: fade(@black, 65%);
 @text-color-secondary: fade(@black, 45%);
 @text-color-inverse: @white;
@@ -5554,6 +5554,7 @@ li.ant-calendar-time-picker-select-option-disabled:hover {
 .ant-dropdown-menu-submenu.ant-dropdown-menu-submenu-disabled .ant-dropdown-menu-submenu-title,
 .ant-dropdown-menu-submenu.ant-dropdown-menu-submenu-disabled .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-arrow-icon {
   color: rgba(0, 0, 0, 0.25);
+  background-color: #fff;
 }
 .ant-dropdown-menu-dark,
 .ant-dropdown-menu-dark .ant-dropdown-menu {
@@ -6084,10 +6085,10 @@ form .ant-upload {
 .ant-input-search-icon:hover {
   color: rgba(0, 0, 0, 0.8);
 }
-.ant-input-search .ant-input-group-addon {
+.ant-input-search-enter-button .ant-input-group-addon {
   border: 0;
 }
-.ant-input-search .ant-input-group-addon .ant-input-search-button {
+.ant-input-search-enter-button .ant-input-group-addon .ant-input-search-button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -7539,6 +7540,7 @@ form .ant-upload {
 }
 .ant-table-thead > tr > th.ant-table-column-has-actions {
   background-clip: padding-box;
+  -webkit-background-clip: border-box;
 }
 .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters .anticon-filter.ant-table-filter-open,
 .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-filters .ant-table-filter-icon.ant-table-filter-open {
@@ -7659,10 +7661,10 @@ form .ant-upload {
   border-bottom: 0;
 }
 .ant-table-bordered.ant-table-fixed-header .ant-table-body > table {
-  border-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.ant-table-bordered.ant-table-fixed-header .ant-table-header + .ant-table-body > table,
 .ant-table-bordered.ant-table-fixed-header .ant-table-body-inner > table {
   border-top: 0;
 }
