@@ -6085,10 +6085,13 @@ form .ant-upload {
 .ant-input-search-icon:hover {
   color: rgba(0, 0, 0, 0.8);
 }
-.ant-input-search-enter-button .ant-input-group-addon {
+.ant-input-search-enter-button input {
+  border-right: 0;
+}
+.ant-input-search-enter-button input + .ant-input-group-addon {
   border: 0;
 }
-.ant-input-search-enter-button .ant-input-group-addon .ant-input-search-button {
+.ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
