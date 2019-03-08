@@ -2087,7 +2087,6 @@ this.tinycolor = tinycolor;
 @list-footer-background: transparent;
 @list-empty-text-padding: @padding-md;
 @list-item-padding: @padding-sm 0;
-@list-item-content-margin: 0 0 @padding-md 0;
 @list-item-meta-margin-bottom: @padding-md;
 @list-item-meta-avatar-margin-right: @padding-md;
 @list-item-meta-title-margin-bottom: @padding-sm;
@@ -5613,7 +5612,7 @@ li.ant-calendar-time-picker-select-option-disabled:hover {
 .ant-form-item {
   color: rgba(0, 0, 0, 0.65);
 }
-.ant-form-item-label label {
+.ant-form-item-label > label {
   color: rgba(0, 0, 0, 0.85);
 }
 .ant-form-explain,
@@ -6102,9 +6101,11 @@ form .ant-upload {
 .ant-input-search-enter-button input {
   border-right: 0;
 }
+.ant-input-search-enter-button + .ant-input-group-addon,
 .ant-input-search-enter-button input + .ant-input-group-addon {
   border: 0;
 }
+.ant-input-search-enter-button + .ant-input-group-addon .ant-input-search-button,
 .ant-input-search-enter-button input + .ant-input-group-addon .ant-input-search-button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -6192,9 +6193,6 @@ form .ant-upload {
 }
 .ant-list-vertical .ant-list-item-meta-title {
   color: rgba(0, 0, 0, 0.85);
-}
-.ant-list-vertical .ant-list-item-content {
-  color: rgba(0, 0, 0, 0.65);
 }
 .ant-list-grid .ant-list-item {
   border-bottom: none;
