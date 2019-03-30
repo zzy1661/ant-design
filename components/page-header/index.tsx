@@ -7,8 +7,10 @@ import Divider from '../divider';
 import Breadcrumb from '../breadcrumb';
 import Tag from '../tag';
 import Wave from '../_util/wave';
+import Skeleton from '../skeleton';
 
 export interface PageHeaderProps {
+  loading?: boolean;
   backIcon?: React.ReactNode;
   prefixCls?: string;
   title: React.ReactNode;
@@ -60,14 +62,17 @@ const renderHeader = (prefixCls: string, props: PageHeaderProps) => {
 const renderTitle = (prefixCls: string, props: PageHeaderProps) => {
   const { title, subTitle, tags, extra } = props;
   const titlePrefixCls = `${prefixCls}-title-view`;
-  return (
-    <div className={`${prefixCls}-title-view`}>
-      <span className={`${titlePrefixCls}-title`}>{title}</span>
-      {subTitle && <span className={`${titlePrefixCls}-sub-title`}>{subTitle}</span>}
-      {tags && <span className={`${titlePrefixCls}-tags`}>{tags}</span>}
-      {extra && <span className={`${titlePrefixCls}-extra`}>{extra}</span>}
-    </div>
-  );
+  if (title || subTitle || tags || extra) {
+    return (
+      <div className={`${prefixCls}-title-view`}>
+        <span className={`${titlePrefixCls}-title`}>{title}</span>
+        {subTitle && <span className={`${titlePrefixCls}-sub-title`}>{subTitle}</span>}
+        {tags && <span className={`${titlePrefixCls}-tags`}>{tags}</span>}
+        {extra && <span className={`${titlePrefixCls}-extra`}>{extra}</span>}
+      </div>
+    );
+  }
+  return null;
 };
 
 const renderFooter = (prefixCls: string, footer: React.ReactNode) => {
@@ -84,6 +89,7 @@ const PageHeader: React.SFC<PageHeaderProps> = props => (
         prefixCls: customizePrefixCls,
         style,
         footer,
+        loading,
         children,
         className: customizeClassName,
       } = props;
@@ -98,12 +104,14 @@ const PageHeader: React.SFC<PageHeaderProps> = props => (
       );
 
       return (
-        <div className={className} style={style}>
-          {renderHeader(prefixCls, props)}
-          {renderTitle(prefixCls, props)}
-          {children && <div className={`${prefixCls}-content-view`}>{children}</div>}
-          {renderFooter(prefixCls, footer)}
-        </div>
+        <Skeleton loading={loading} active paragraph={{ rows: 2 }}>
+          <div className={className} style={style}>
+            {renderHeader(prefixCls, props)}
+            {renderTitle(prefixCls, props)}
+            {children && <div className={`${prefixCls}-content-view`}>{children}</div>}
+            {renderFooter(prefixCls, footer)}
+          </div>
+        </Skeleton>
       );
     }}
   </ConfigConsumer>
