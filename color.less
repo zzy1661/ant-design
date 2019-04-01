@@ -1514,6 +1514,9 @@ this.tinycolor = tinycolor;
 @gold-9: color(~`colorPalette('@{gold-6}', 9) `);
 @gold-10: color(~`colorPalette('@{gold-6}', 10) `);
 
+@preset-colors: pink, magenta, red, volcano, orange, yellow, gold, cyan, lime, green, blue, geekblue,
+  purple;
+
 // The prefix to use on all css classes from ant.
 @ant-prefix: ant;
 
@@ -1654,6 +1657,8 @@ this.tinycolor = tinycolor;
 @btn-font-weight: 400;
 @btn-border-radius-base: @border-radius-base;
 @btn-border-radius-sm: @border-radius-base;
+@btn-border-width: @border-width-base;
+@btn-border-style: @border-style-base;
 @btn-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
 @btn-primary-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 @btn-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
@@ -1704,6 +1709,7 @@ this.tinycolor = tinycolor;
 
 // Radio buttons
 @radio-button-bg: @btn-default-bg;
+@radio-button-checked-bg: @btn-default-bg;
 @radio-button-color: @btn-default-color;
 @radio-button-hover-color: @primary-5;
 @radio-button-active-color: @primary-7;
@@ -1729,7 +1735,7 @@ this.tinycolor = tinycolor;
 @screen-xl: 1200px;
 @screen-xl-min: @screen-xl;
 
-// Extra extra large screen / large descktop
+// Extra extra large screen / large desktop
 @screen-xxl: 1600px;
 @screen-xxl-min: @screen-xxl;
 
@@ -1763,12 +1769,12 @@ this.tinycolor = tinycolor;
 @layout-trigger-color-light: @text-color;
 
 // z-index list, order by `z-index`
+@zindex-table-fixed: auto;
 @zindex-affix: 10;
 @zindex-back-top: 10;
 @zindex-badge: 10;
 @zindex-picker-panel: 10;
 @zindex-popup-close: 10;
-@zindex-table-fixed: 20;
 @zindex-modal: 1000;
 @zindex-modal-mask: 1000;
 @zindex-message: 1010;
@@ -1854,7 +1860,9 @@ this.tinycolor = tinycolor;
 
 // Modal
 // --
+@modal-body-padding: 24px;
 @modal-header-bg: @component-background;
+@modal-footer-bg: tranparent;
 @modal-mask-bg: fade(@black, 65%);
 
 // Progress
@@ -1941,7 +1949,6 @@ this.tinycolor = tinycolor;
 @card-head-padding: 16px;
 @card-inner-head-padding: 12px;
 @card-padding-base: 24px;
-@card-padding-wider: 32px;
 @card-actions-background: @background-color-light;
 @card-background: #cfd8dc;
 @card-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
@@ -2011,6 +2018,11 @@ this.tinycolor = tinycolor;
 @pagination-font-family: Arial;
 @pagination-font-weight-active: 500;
 @pagination-item-bg-active: transparent;
+
+// PageHeader
+// ---
+@page-header-padding-horizontal: 24px;
+@page-header-padding-vertical: 16px;
 
 // Breadcrumb
 // ---
@@ -2224,14 +2236,14 @@ body {
   color: #aaa;
 }
 footer {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.4);
   background-color: #000;
-}
-footer .ant-row .footer-center > h2 > .anticon {
-  color: #aaa;
 }
 footer .footer-wrap {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+footer .footer-wrap .footer-center > h2 > .anticon {
+  color: #aaa;
 }
 footer .bottom-bar a {
   color: rgba(255, 255, 255, 0.65);
@@ -3625,6 +3637,45 @@ mark {
 .ant-badge-status-warning {
   background-color: #faad14;
 }
+.ant-badge-status-pink {
+  background: #eb2f96;
+}
+.ant-badge-status-magenta {
+  background: #eb2f96;
+}
+.ant-badge-status-red {
+  background: #f5222d;
+}
+.ant-badge-status-volcano {
+  background: #fa541c;
+}
+.ant-badge-status-orange {
+  background: #fa8c16;
+}
+.ant-badge-status-yellow {
+  background: #fadb14;
+}
+.ant-badge-status-gold {
+  background: #faad14;
+}
+.ant-badge-status-cyan {
+  background: #13c2c2;
+}
+.ant-badge-status-lime {
+  background: #a0d911;
+}
+.ant-badge-status-green {
+  background: #52c41a;
+}
+.ant-badge-status-blue {
+  background: @primary-color;
+}
+.ant-badge-status-geekblue {
+  background: #2f54eb;
+}
+.ant-badge-status-purple {
+  background: #722ed1;
+}
 .ant-badge-status-text {
   color: rgba(0, 0, 0, 0.65);
 }
@@ -4973,6 +5024,10 @@ mark {
 .ant-calendar-disabled-cell .ant-calendar-date:hover {
   background: #f5f5f5;
 }
+.ant-calendar-disabled-cell.ant-calendar-selected-day .ant-calendar-date::before {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
 .ant-calendar-disabled-cell.ant-calendar-today .ant-calendar-date::before {
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 2px;
@@ -5647,11 +5702,11 @@ li.ant-calendar-time-picker-select-option-disabled:hover {
 .ant-form-item-required::before {
   color: #f5222d;
 }
-.ant-form-item {
-  color: rgba(0, 0, 0, 0.65);
-}
 .ant-form-item-label > label {
   color: rgba(0, 0, 0, 0.85);
+}
+.ant-form-item {
+  color: rgba(0, 0, 0, 0.65);
 }
 .ant-form-explain,
 .ant-form-extra {
@@ -6144,8 +6199,20 @@ form .ant-upload {
 .ant-input-affix-wrapper .ant-input-suffix {
   color: rgba(0, 0, 0, 0.65);
 }
+.ant-input-password-icon {
+  color: rgba(0, 0, 0, 0.45);
+}
 .ant-input-password-icon:hover {
   color: #333;
+}
+.ant-input-clear-icon {
+  color: rgba(0, 0, 0, 0.25);
+}
+.ant-input-clear-icon:hover {
+  color: rgba(0, 0, 0, 0.45);
+}
+.ant-input-clear-icon:active {
+  color: rgba(0, 0, 0, 0.65);
 }
 .ant-input-search-icon {
   color: rgba(0, 0, 0, 0.45);
@@ -6713,6 +6780,7 @@ form .ant-upload {
   border-radius: 4px 4px 0 0;
 }
 .ant-modal-footer {
+  background: tranparent;
   border-top: 1px solid #e8e8e8;
   border-radius: 0 0 4px 4px;
 }
@@ -7420,7 +7488,7 @@ form .ant-upload {
 .ant-spin-tip {
   color: rgba(0, 0, 0, 0.45);
 }
-.ant-spin-dot i {
+.ant-spin-dot-item {
   background-color: @primary-color;
   border-radius: 100%;
 }
@@ -7639,11 +7707,11 @@ form .ant-upload {
 .ant-table-thead > tr > th .ant-table-filter-selected.anticon-filter {
   color: @primary-color;
 }
-.ant-table-thead > tr > th .ant-table-column-sorter {
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner {
   color: #bfbfbf;
 }
-.ant-table-thead > tr > th .ant-table-column-sorter-up.on,
-.ant-table-thead > tr > th .ant-table-column-sorter-down.on {
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner .ant-table-column-sorter-up.on,
+.ant-table-thead > tr > th .ant-table-column-sorter .ant-table-column-sorter-inner .ant-table-column-sorter-down.on {
   color: @primary-color;
 }
 .ant-table-thead > tr > th.ant-table-column-has-actions {
@@ -8833,7 +8901,7 @@ h4.ant-typography,
   border-radius: 4px;
 }
 .ant-upload.ant-upload-drag.ant-upload-drag-hover:not(.ant-upload-disabled) {
-  border: 2px dashed color(~`colorPalette("@{primary-color}", 5)`);
+  border-color: color(~`colorPalette("@{primary-color}", 7)`);
 }
 .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
   border-color: color(~`colorPalette("@{primary-color}", 5)`);
@@ -9029,14 +9097,14 @@ body {
   color: #aaa;
 }
 footer {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.4);
   background-color: #000;
-}
-footer .ant-row .footer-center > h2 > .anticon {
-  color: #aaa;
 }
 footer .footer-wrap {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+footer .footer-wrap .footer-center > h2 > .anticon {
+  color: #aaa;
 }
 footer .bottom-bar a {
   color: rgba(255, 255, 255, 0.65);
