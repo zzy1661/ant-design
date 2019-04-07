@@ -1520,6 +1520,9 @@ this.tinycolor = tinycolor;
 // The prefix to use on all css classes from ant.
 @ant-prefix: ant;
 
+// An override for the html selector for theme prefixes
+@html-selector: html;
+
 // -------- Colors -----------
 
 @info-color: @blue-6;
@@ -5688,6 +5691,12 @@ li.ant-calendar-time-picker-select-option-disabled:hover {
   color: #fff;
   background: @primary-color;
 }
+.ant-empty-normal {
+  color: rgba(0, 0, 0, 0.25);
+}
+.ant-empty-small {
+  color: rgba(0, 0, 0, 0.25);
+}
 .ant-form {
   color: rgba(0, 0, 0, 0.65);
 }
@@ -6272,7 +6281,7 @@ form .ant-upload {
   color: rgba(0, 0, 0, 0.65);
 }
 .ant-list-empty-text {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, 0.25);
 }
 .ant-list-item-content {
   color: rgba(0, 0, 0, 0.65);
@@ -7743,10 +7752,10 @@ form .ant-upload {
 .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:active .ant-table-column-sorter-down:not(.on) {
   color: rgba(0, 0, 0, 0.45);
 }
-.ant-table-thead > tr > th .ant-table-column-sorters::before {
+.ant-table-thead > tr > th .ant-table-header-column .ant-table-column-sorters::before {
   background: transparent;
 }
-.ant-table-thead > tr > th .ant-table-column-sorters:hover::before {
+.ant-table-thead > tr > th .ant-table-header-column .ant-table-column-sorters:hover::before {
   background: rgba(0, 0, 0, 0.04);
 }
 .ant-table-thead > tr:first-child > th:first-child {
@@ -7852,7 +7861,7 @@ form .ant-upload {
   border-right: 1px solid #e8e8e8;
 }
 .ant-table-placeholder {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, 0.25);
   background: #fff;
   border-bottom: 1px solid #e8e8e8;
   border-radius: 0 0 4px 4px;
