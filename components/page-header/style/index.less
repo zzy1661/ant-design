@@ -1,5 +1,6 @@
 @import '../../style/themes/default';
 @import '../../style/mixins/index';
+@import '../../skeleton/style/index.less';
 
 @pageheader-prefix-cls: ~'@{ant-prefix}-page-header';
 
@@ -23,7 +24,7 @@
     i:hover {
       color: @primary-color;
     }
-    .ant-skeleton {
+    .@{skeleton-prefix-cls} {
       width: 16px;
       height: 16px;
       margin-right: 8px;
@@ -42,7 +43,7 @@
   &-title-view {
     display: inline-block;
 
-    .ant-skeleton {
+    .@{skeleton-prefix-cls} {
       width: 100%;
       font-size: 16px;
     }
@@ -100,16 +101,16 @@
   }
 
   &-breadcrumb {
-    .ant-skeleton {
+    .@{skeleton-prefix-cls} {
       display: inline-block;
       width: 60px;
       margin-right: 8px;
-      .ant-skeleton-title {
+      .@{skeleton-title-prefix-cls} {
         width: 60px;
       }
     }
   }
-  .ant-skeleton-content .ant-skeleton-title {
+  .@{skeleton-prefix-cls}-content .@{skeleton-title-prefix-cls} {
     height: 22px;
     margin: 0;
   }
