@@ -24,11 +24,8 @@ export interface PageHeaderProps {
   className?: string;
 }
 
-const renderBack = (
-  prefixCls: string,
-  backIcon?: React.ReactNode,
-  onBack?: (e: React.MouseEvent<HTMLElement>) => void,
-) => {
+const renderBack = (prefixCls: string, props: PageHeaderProps) => {
+  const { backIcon, onBack, loading } = props;
   if (!backIcon || !onBack) {
     return null;
   }
@@ -41,34 +38,72 @@ const renderBack = (
         }
       }}
     >
-      <Wave>{backIcon}</Wave>
-      <Divider type="vertical" />
+      <Skeleton
+        loading={loading}
+        active
+        paragraph={false}
+        title={{
+          width: 22,
+          style: {
+            display: 'inline-block',
+          },
+        }}
+      >
+        <Wave>{backIcon}</Wave>
+        <Divider type="vertical" />
+      </Skeleton>
     </div>
   );
 };
 
-const renderBreadcrumb = (breadcrumb: BreadcrumbProps) => {
+const renderBreadcrumb = (
+  breadcrumb: BreadcrumbProps,
+  prefixCls: string,
+  props: PageHeaderProps,
+) => {
+  const { loading } = props;
+  if (loading && breadcrumb.routes) {
+    return (
+      <div className={`${prefixCls}-breadcrumb`}>
+        {breadcrumb.routes.map(() => (
+          <Skeleton loading={loading} active paragraph={false} />
+        ))}
+      </div>
+    );
+  }
   return <Breadcrumb {...breadcrumb} />;
 };
 
 const renderHeader = (prefixCls: string, props: PageHeaderProps) => {
-  const { breadcrumb, backIcon, onBack } = props;
+  const { breadcrumb } = props;
   if (breadcrumb && breadcrumb.routes && breadcrumb.routes.length >= 2) {
-    return renderBreadcrumb(breadcrumb);
+    return renderBreadcrumb(breadcrumb, prefixCls, props);
   }
-  return renderBack(prefixCls, backIcon, onBack);
+  return renderBack(prefixCls, props);
 };
 
 const renderTitle = (prefixCls: string, props: PageHeaderProps) => {
-  const { title, subTitle, tags, extra } = props;
+  const { title, subTitle, tags, extra, loading } = props;
   const titlePrefixCls = `${prefixCls}-title-view`;
   if (title || subTitle || tags || extra) {
     return (
       <div className={`${prefixCls}-title-view`}>
-        <span className={`${titlePrefixCls}-title`}>{title}</span>
-        {subTitle && <span className={`${titlePrefixCls}-sub-title`}>{subTitle}</span>}
-        {tags && <span className={`${titlePrefixCls}-tags`}>{tags}</span>}
-        {extra && <span className={`${titlePrefixCls}-extra`}>{extra}</span>}
+        <Skeleton
+          loading={loading}
+          active
+          paragraph={false}
+          title={{
+            style: {
+              minWidth: '400px',
+              display: 'inline-block',
+            },
+          }}
+        >
+          <span className={`${titlePrefixCls}-title`}>{title}</span>
+          {subTitle && <span className={`${titlePrefixCls}-sub-title`}>{subTitle}</span>}
+          {tags && <span className={`${titlePrefixCls}-tags`}>{tags}</span>}
+          {extra && <span className={`${titlePrefixCls}-extra`}>{extra}</span>}
+        </Skeleton>
       </div>
     );
   }
@@ -82,17 +117,21 @@ const renderFooter = (prefixCls: string, footer: React.ReactNode) => {
   return null;
 };
 
+const renderChildren = (prefixCls: string, props: React.PropsWithChildren<PageHeaderProps>) => {
+  const { loading, children } = props;
+  if (!children) {
+    return null;
+  }
+  if (loading) {
+    return <Skeleton loading={loading} active paragraph={{ rows: 2 }} title={false} />;
+  }
+  return <div className={`${prefixCls}-content-view`}>{children}</div>;
+};
+
 const PageHeader: React.SFC<PageHeaderProps> = props => (
   <ConfigConsumer>
     {({ getPrefixCls }: ConfigConsumerProps) => {
-      const {
-        prefixCls: customizePrefixCls,
-        style,
-        footer,
-        loading,
-        children,
-        className: customizeClassName,
-      } = props;
+      const { prefixCls: customizePrefixCls, style, footer, className: customizeClassName } = props;
 
       const prefixCls = getPrefixCls('page-header', customizePrefixCls);
       const className = classnames(
@@ -104,14 +143,12 @@ const PageHeader: React.SFC<PageHeaderProps> = props => (
       );
 
       return (
-        <Skeleton loading={loading} active paragraph={{ rows: 2 }}>
-          <div className={className} style={style}>
-            {renderHeader(prefixCls, props)}
-            {renderTitle(prefixCls, props)}
-            {children && <div className={`${prefixCls}-content-view`}>{children}</div>}
-            {renderFooter(prefixCls, footer)}
-          </div>
-        </Skeleton>
+        <div className={className} style={style}>
+          {renderHeader(prefixCls, props)}
+          {renderTitle(prefixCls, props)}
+          {renderChildren(prefixCls, props)}
+          {renderFooter(prefixCls, footer)}
+        </div>
       );
     }}
   </ConfigConsumer>

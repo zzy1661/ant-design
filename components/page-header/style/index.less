@@ -23,6 +23,11 @@
     i:hover {
       color: @primary-color;
     }
+    .ant-skeleton {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
   }
 
   .@{ant-prefix}-divider {
@@ -36,6 +41,12 @@
 
   &-title-view {
     display: inline-block;
+
+    .ant-skeleton {
+      width: 100%;
+      font-size: 16px;
+    }
+
     &-title {
       display: inline-block;
       padding-right: 12px;
@@ -86,5 +97,20 @@
         padding-top: 0;
       }
     }
+  }
+
+  &-breadcrumb {
+    .ant-skeleton {
+      display: inline-block;
+      width: 60px;
+      margin-right: 8px;
+      .ant-skeleton-title {
+        width: 60px;
+      }
+    }
+  }
+  .ant-skeleton-content .ant-skeleton-title {
+    height: 22px;
+    margin: 0;
   }
 }
