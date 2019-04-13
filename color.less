@@ -3468,10 +3468,14 @@ mark {
 .anticon {
   color: inherit;
 }
+html {
+  --antd-wave-shadow-color: @primary-color;
+}
 [ant-click-animating-without-extra-node='true']::after,
 .ant-click-animating-node {
-  border: 0 solid @primary-color;
   border-radius: inherit;
+  box-shadow: 0 0 0 0 @primary-color;
+  box-shadow: 0 0 0 0 var(--antd-wave-shadow-color);
 }
 .ant-alert {
   color: rgba(0, 0, 0, 0.65);
@@ -6524,7 +6528,9 @@ form .ant-upload {
 .ant-menu-submenu-vertical-right > .ant-menu-submenu-title .ant-menu-submenu-arrow::after,
 .ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow::after {
   background: #fff;
+  background: rgba(0, 0, 0, 0.65) ;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65));
+  background-image: none ;
   border-radius: 2px;
 }
 .ant-menu-submenu-vertical > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after,
