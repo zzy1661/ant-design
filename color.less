@@ -2080,7 +2080,9 @@ this.tinycolor = tinycolor;
 
 // Transfer
 // ---
+@transfer-header-height: 40px;
 @transfer-disabled-bg: @disabled-bg;
+@transfer-list-height: 200px;
 
 // Message
 // ---
@@ -7272,6 +7274,29 @@ form .ant-upload {
   background: transparent;
   border-color: transparent;
 }
+.ant-pagination.ant-pagination-disabled .ant-pagination-item {
+  border-color: #d9d9d9;
+  background: #f5f5f5;
+}
+.ant-pagination.ant-pagination-disabled .ant-pagination-item a {
+  color: rgba(0, 0, 0, 0.25);
+  background: transparent;
+  border: none;
+}
+.ant-pagination.ant-pagination-disabled .ant-pagination-item-active {
+  border-color: transparent;
+  background: #dbdbdb;
+}
+.ant-pagination.ant-pagination-disabled .ant-pagination-item-active a {
+  color: #fff;
+}
+.ant-pagination.ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination.ant-pagination-disabled .ant-pagination-item-link:hover,
+.ant-pagination.ant-pagination-disabled .ant-pagination-item-link:focus {
+  border-color: #d9d9d9;
+  color: rgba(0, 0, 0, 0.45);
+  background: #f5f5f5;
+}
 .ant-popover {
   color: rgba(0, 0, 0, 0.65);
 }
@@ -7632,7 +7657,7 @@ form .ant-upload {
 .ant-select-dropdown-menu-item {
   color: rgba(0, 0, 0, 0.65);
 }
-.ant-select-dropdown-menu-item:hover {
+.ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
   background-color: color(~`colorPalette("@{primary-color}", 1)`);
 }
 .ant-select-dropdown-menu-item:first-child {
@@ -7641,18 +7666,17 @@ form .ant-upload {
 .ant-select-dropdown-menu-item:last-child {
   border-radius: 0 0 4px 4px;
 }
+.ant-select-dropdown-menu-item-selected {
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #fafafa;
+}
 .ant-select-dropdown-menu-item-disabled {
   color: rgba(0, 0, 0, 0.25);
 }
 .ant-select-dropdown-menu-item-disabled:hover {
   color: rgba(0, 0, 0, 0.25);
-  background-color: #fff;
 }
-.ant-select-dropdown-menu-item-selected {
-  color: rgba(0, 0, 0, 0.65);
-  background-color: #fafafa;
-}
-.ant-select-dropdown-menu-item-active {
+.ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled) {
   background-color: color(~`colorPalette("@{primary-color}", 1)`);
 }
 .ant-select-dropdown-menu-item-divider {
@@ -8775,6 +8799,16 @@ li.ant-time-picker-panel-select-option-disabled:hover {
 .ant-tooltip-placement-bottomRight .ant-tooltip-arrow {
   border-width: 0 5px 5px;
   border-bottom-color: rgba(0, 0, 0, 0.75);
+}
+.ant-transfer-customize-list .ant-table-wrapper .ant-table-small {
+  border: 0;
+  border-radius: 0;
+}
+.ant-transfer-customize-list .ant-table-wrapper .ant-table-small > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th {
+  background: #fafafa;
+}
+.ant-transfer-customize-list .ant-table-wrapper .ant-table-small > .ant-table-content .ant-table-row:last-child td {
+  border-bottom: 1px solid #e8e8e8;
 }
 .ant-transfer {
   color: rgba(0, 0, 0, 0.65);
