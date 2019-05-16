@@ -117,7 +117,7 @@ export default class Col extends React.Component<ColProps, {}> {
     return (
       <RowContext.Consumer>
         {({ gutter }) => {
-          let mergedStyle = { ...style };
+          const mergedStyle = { ...style };
           if (gutter! > 0) {
             mergedStyle.paddingLeft = gutter! / 2;
             mergedStyle.paddingRight = gutter! / 2;
